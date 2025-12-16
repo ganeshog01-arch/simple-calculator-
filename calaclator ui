@@ -1,0 +1,49 @@
+from tkinter import *
+
+# Create main window
+root = Tk()
+root.title("Simple Calculator")
+root.geometry("")
+
+equation = StringVar()
+
+# Entry box
+entry = Entry(root, textvariable=equation, font=('Arial', 18), justify='right')
+entry.grid(row=0, column=0, columnspan=4, ipadx=8, ipady=10)
+
+# Function to update expression
+def press(num):
+    equation.set(equation.get() + str(num))
+
+# Function to evaluate result
+def equalpress():
+    try:
+        total = str(eval(equation.get()))
+        equation.set(total)
+    except:
+        equation.set("Error")
+
+# Function to clear entry
+def clear():
+    equation.set("")
+
+# Buttons layout
+buttons = [
+    ('7', 1, 0), ('8', 1, 1), ('9', 1, 2), ('/', 1, 3),
+    ('4', 2, 0), ('5', 2, 1), ('6', 2, 2), ('*', 2, 3),
+    ('1', 3, 0), ('2', 3, 1), ('3', 3, 2), ('-', 3, 3),
+    ('0', 4, 0), ('C', 4, 1), ('=', 4, 2), ('+', 4, 3)
+]
+
+for (text, row, col) in buttons:
+    if text == "=":
+        Button(root, text=text, fg="black", bg="green", height=3, width=8,
+               command=equalpress).grid(row=row, column=col, padx=5, pady=5)
+    elif text == "C":
+        Button(root, text=text, fg="black", bg="red", height=3, width=8,
+               command=clear).grid(row=row, column=col, padx=5, pady=5)
+    else:
+        Button(root, text=text, height=3, width=8,
+               command=lambda t=text: press(t)).grid(row=row, column=col, padx=5, pady=5)
+
+root.mainloop()
